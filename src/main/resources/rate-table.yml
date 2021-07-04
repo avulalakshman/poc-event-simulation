@@ -1,0 +1,23 @@
+-
+    id: '30001'
+    svcDimensionName: request_unit
+    svcCode: '1000'
+    priceMethod: TIER
+    minQuantity: '1'
+    maxQuantity: '300000000'
+    unitPrice: '0.000001'
+    minCharge: ""
+    maxCharge: ""
+    frequency: ""
+-
+    id: '30002'
+    svcDimensionName: request_unit
+    svcCode: '1000'
+    priceMethod: TIER
+    minQuantity: '300000000'
+    maxQuantity: '1000000000'
+    unitPrice: '0.0000009'
+    minCharge: ""
+    maxCharge: ""
+    frequency: ""
+-
