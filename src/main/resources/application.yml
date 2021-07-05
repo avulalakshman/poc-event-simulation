@@ -1,13 +1,13 @@
 servicedata: 
  service:
   id: 1001
-  name: HTTP APIs
+  svcName: HTTP APIs
   description: Select the units, number, and frequency for HTTP
   strFormula: 
-  serviceDimenstions:
+  serviceDimensions:
     -
-      name: request_unit
-      dimenstionType: PICKLIST
+      svcDimName: request_unit
+      dimensionType: PICKLIST
       picklist:
         -
          name: exact number
@@ -33,8 +33,8 @@ servicedata:
          minValue: 1000000000
          unitPrice: 0.0000009
     -
-      name: period
-      dimenstionType: PICKLIST
+      svcDimName: period
+      dimensionType: PICKLIST
       picklist:
         -
          name: per second
@@ -52,8 +52,8 @@ servicedata:
          name: per month
          value: 1
     -  
-     name: sizebytes
-     dimenstionType: PICKLIST
+     svcDimName: sizebytes
+     dimensionType: PICKLIST
      picklist:
        -
         name: bytes
@@ -65,11 +65,11 @@ servicedata:
         name: mb
         value: 1024
     -  
-     name: requests
-     dimenstionType: INPUT
+     svcDimName: requests
+     dimensionType: INPUT
     -  
-     name: sizeunit
-     dimenstionType: INPUT
+     svcDimName: sizeunit
+     dimensionType: INPUT
   
 eventdata:
    eventList:

@@ -1,5 +1,5 @@
 package com.heraizen.es.domain;
 
-public enum DimenstionType {
+public enum DimensionType {
     DERIVED,INPUT,PICKLIST
 }

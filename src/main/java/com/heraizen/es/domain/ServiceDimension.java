@@ -1,5 +1,6 @@
 package com.heraizen.es.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.NaturalId;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,25 +25,30 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-public class ServiceDimenstion {
-    @Id
+public class ServiceDimension implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private String name;
+    @NaturalId
+    private String svcDimName;
     
     @Enumerated(EnumType.STRING)
-    private DimenstionType dimenstionType;
+    private DimensionType dimensionType;
     
+     
     
-    @OneToMany(mappedBy = "serviceDimenstion",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "serviceDimension",cascade = CascadeType.ALL)
     private List<Picklist> picklist=new ArrayList<>();
     
-    @ManyToOne
-    @JoinColumn(name = "service_id",referencedColumnName = "id",nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "svc_name",referencedColumnName = "svcName")
     private Service service;
     
-    @OneToMany(mappedBy = "serviceDimenstion",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "serviceDimension", cascade = CascadeType.ALL)
     private List<RateTable> rateTable=new ArrayList<>();
     
     public void addPicklist(Picklist picklist){

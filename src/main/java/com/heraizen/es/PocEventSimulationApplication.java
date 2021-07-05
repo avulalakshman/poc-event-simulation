@@ -23,7 +23,10 @@ public class PocEventSimulationApplication implements CommandLineRunner {
 	
 	@Autowired
 	private ServiceEvent serviceEvent;
+	
 
+
+	
 	public static void main(String[] args) {
 		SpringApplication.run(PocEventSimulationApplication.class, args);
 	}
@@ -32,18 +35,19 @@ public class PocEventSimulationApplication implements CommandLineRunner {
 	@Transactional
 	public void run(String... args) throws Exception {
 		Service service = ServiceUtil.getService();
-		service.getServiceDimenstions().forEach(d -> d.setService(service));
-		service.getServiceDimenstions().forEach(d -> {
+		service.getServiceDimensions().forEach(d -> d.setService(service));
+		service.getServiceDimensions().forEach(d -> {
+			
 			d.getRateTable().stream().forEach(p->{
-				p.setServiceDimenstion(d);
+				p.setServiceDimension(d);
 			});
+			
 			d.getPicklist().forEach(p -> {
-				p.setServiceDimenstion(d);
+				p.setServiceDimension(d);
+				
 			});
 		});
-		
-		serviceRepo.save(service);
-		
+    	serviceRepo.save(service);
 		System.out.println(serviceEvent.getEventList());
 
 	}

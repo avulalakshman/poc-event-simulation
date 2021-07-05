@@ -1,5 +1,8 @@
 package com.heraizen.es.domain;
 
+import java.io.Serializable;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,8 +16,8 @@ import lombok.Data;
 
 @Entity
 @Data
-public class RateTable {
-
+public class RateTable implements Serializable {
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
@@ -23,7 +26,7 @@ public class RateTable {
 	private long maxValue;
 	private long minValue;
 	private double unitPrice;
-	@ManyToOne
-	@JoinColumn(name = "service_dimenstion_id")
-	private ServiceDimenstion serviceDimenstion;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "svc_dim_name", referencedColumnName = "svcDimName")
+	private ServiceDimension serviceDimension;
 }
