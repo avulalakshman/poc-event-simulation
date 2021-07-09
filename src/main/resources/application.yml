@@ -21,17 +21,7 @@ servicedata:
         -
          name: billions
          value: 10000000
-      rateTable:
-        -
-         priceMethod: TIERED
-         maxValue: 1
-         minValue: 300000000
-         unitPrice: 0.000001
-        -
-         priceMethod: TIERED
-         maxValue: 300000000
-         minValue: 1000000000
-         unitPrice: 0.0000009
+     
     -
       svcDimName: period
       dimensionType: PICKLIST
@@ -70,7 +60,18 @@ servicedata:
     -  
      svcDimName: sizeunit
      dimensionType: INPUT
-  
+     
+ rateTables:
+        -
+         priceMethod: TIERED
+         maxValue: 1
+         minValue: 300000000
+         unitPrice: 0.000001
+        -
+         priceMethod: TIERED
+         maxValue: 300000000
+         minValue: 1000000000
+         unitPrice: 0.0000009
 eventdata:
    eventList:
     - 

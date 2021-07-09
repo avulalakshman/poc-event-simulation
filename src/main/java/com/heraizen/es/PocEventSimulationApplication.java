@@ -1,5 +1,7 @@
 package com.heraizen.es;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +11,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.heraizen.es.config.ServiceEvent;
 import com.heraizen.es.config.ServiceUtil;
+import com.heraizen.es.domain.RateTable;
 import com.heraizen.es.domain.Service;
+import com.heraizen.es.domain.ServiceDimension;
+import com.heraizen.es.repo.RateTableRepo;
+import com.heraizen.es.repo.ServiceDimensionRepo;
 import com.heraizen.es.repo.ServiceRepo;
 
 @SpringBootApplication
 public class PocEventSimulationApplication implements CommandLineRunner {
 
 	@Autowired
-	private ServiceUtil ServiceUtil;
+	private ServiceUtil serviceUtil;
 
 	@Autowired
 	private ServiceRepo serviceRepo;
@@ -24,6 +30,11 @@ public class PocEventSimulationApplication implements CommandLineRunner {
 	@Autowired
 	private ServiceEvent serviceEvent;
 	
+	@Autowired
+	private ServiceDimensionRepo serviceDimensionRepo;
+	
+	@Autowired
+	private RateTableRepo rateTableRepo;
 
 
 	
@@ -34,20 +45,24 @@ public class PocEventSimulationApplication implements CommandLineRunner {
 	@Override
 	@Transactional
 	public void run(String... args) throws Exception {
-		Service service = ServiceUtil.getService();
+		Service service = serviceUtil.getService();
 		service.getServiceDimensions().forEach(d -> d.setService(service));
 		service.getServiceDimensions().forEach(d -> {
-			
-			d.getRateTable().stream().forEach(p->{
-				p.setServiceDimension(d);
-			});
-			
 			d.getPicklist().forEach(p -> {
 				p.setServiceDimension(d);
 				
 			});
 		});
     	serviceRepo.save(service);
+    	
+    	ServiceDimension svcDimnsion = serviceDimensionRepo.findBySvcDimName("request_unit");
+    	List<RateTable> rateTables = serviceUtil.getRateTables();
+    	if(svcDimnsion != null) {
+    		rateTables.forEach(r->{
+    			r.setServiceDimension(svcDimnsion);
+    		});
+    	}
+    	rateTableRepo.saveAll(rateTables);
 		System.out.println(serviceEvent.getEventList());
 
 	}

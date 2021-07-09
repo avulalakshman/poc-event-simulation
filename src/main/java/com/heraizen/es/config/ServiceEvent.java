@@ -18,4 +18,5 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "eventdata")
 public class ServiceEvent {
 	private List<Event> eventList;
+	
 }

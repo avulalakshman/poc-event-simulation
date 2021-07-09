@@ -38,24 +38,13 @@ public class ServiceDimension implements Serializable {
     
     @Enumerated(EnumType.STRING)
     private DimensionType dimensionType;
-    
-     
-    
+  
     @OneToMany(mappedBy = "serviceDimension",cascade = CascadeType.ALL)
     private List<Picklist> picklist=new ArrayList<>();
     
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "svc_name",referencedColumnName = "svcName")
     private Service service;
-    
-    @OneToMany(mappedBy = "serviceDimension", cascade = CascadeType.ALL)
-    private List<RateTable> rateTable=new ArrayList<>();
-    
-    public void addPicklist(Picklist picklist){
-        this.picklist.add(picklist);
-    }
-    
-    public void addRateTable(RateTable rateTable) {
-    	this.rateTable.add(rateTable);
-    }
+        
+   
 }
