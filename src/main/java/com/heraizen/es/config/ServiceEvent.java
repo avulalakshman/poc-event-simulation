@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import com.heraizen.es.domain.Event;
+import com.heraizen.es.domain.DimensionData;
 
 import lombok.Data;
 import lombok.Getter;
@@ -17,6 +17,6 @@ import lombok.Setter;
 @Configuration
 @ConfigurationProperties(prefix = "eventdata")
 public class ServiceEvent {
-	private List<Event> eventList;
+	private List<DimensionData> eventList;
 	
 }
