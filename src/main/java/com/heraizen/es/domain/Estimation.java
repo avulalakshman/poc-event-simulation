@@ -16,11 +16,12 @@ import javax.persistence.OneToMany;
  *
  * @author Pradeepkm
  */
-public class Event {
+public class Estimation {
+	
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)        
-    Long id;
+    private Long id;
     
-    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)      
-    List<DimensionData> eventData;
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)      
+    private List<DimensionData> eventData;
 }

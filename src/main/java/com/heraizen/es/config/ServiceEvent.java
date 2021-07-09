@@ -15,8 +15,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties(prefix = "eventdata")
+@ConfigurationProperties(prefix = "estimation")
 public class ServiceEvent {
-	private List<DimensionData> eventList;
+	private List<DimensionData> eventData;
 	
 }

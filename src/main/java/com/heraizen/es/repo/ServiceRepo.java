@@ -6,4 +6,6 @@ import com.heraizen.es.domain.Service;
 
 public interface ServiceRepo extends JpaRepository<Service,Long>{
 
+	Service findBySvcName(String serviceName);
+
 }
