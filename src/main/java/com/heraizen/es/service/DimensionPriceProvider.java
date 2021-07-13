@@ -29,7 +29,7 @@ public class DimensionPriceProvider {
     @Autowired
     private PriceCalculatorStrategyFactory priceCalcFactory;
 
-    public double getPriceFor(String dimensionName, double dimentionVal) {
+    public double getPriceFor(String dimensionName, double dimensionVal) {
 
         //get the rateTableItems for this dimentsion, it will be a list (for ex: Tiers)...findByDimensionName method on the RateTableRepository
         List<RateTable> rateList = rateTableRepo.findByServiceDimensionSvcDimName(dimensionName);
@@ -41,6 +41,6 @@ public class DimensionPriceProvider {
         }
         PriceMethod pricingMethod = rateList.get(0).getPriceMethod();
         PriceCalculator priceCalc = priceCalcFactory.getPriceCalculatorFor(pricingMethod);
-        return priceCalc.calculatePrice(rateList, dimensionName);
+        return priceCalc.calculatePrice(rateList, dimensionVal);
     }
 }

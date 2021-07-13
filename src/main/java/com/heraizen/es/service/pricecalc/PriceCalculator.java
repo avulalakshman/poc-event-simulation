@@ -13,5 +13,5 @@ import java.util.List;
  * @author Pradeepkm
  */
 public interface PriceCalculator {
-    public double calculatePrice(List<RateTable> rates, String dimensionVal);
+    public double calculatePrice(List<RateTable> rates, double dimensionVal);
 }

@@ -7,6 +7,8 @@ package com.heraizen.es.service.pricecalc;
 
 import com.heraizen.es.domain.RateTable;
 import java.util.List;
+import org.scijava.parsington.Literals;
+import org.springframework.util.NumberUtils;
 
 /**
  *
@@ -15,8 +17,9 @@ import java.util.List;
 public class QuantityPriceCalculator implements PriceCalculator{
 
     @Override
-    public double calculatePrice(List<RateTable> rates, String dimensionVal) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public double calculatePrice(List<RateTable> rates, double dimensionVal) {
+        RateTable rate = rates.get(0);
+        return rate.getUnitPrice() * dimensionVal;
     }
     
 }
