@@ -3,7 +3,7 @@ servicedata:
   id: 1001
   svcName: HTTP APIs
   description: Select the units, number, and frequency for HTTP
-  svcFormula: 
+  svcFormula: price(total_requests)
   serviceDimensions:
     -  
      svcDimName: total_requests
