@@ -11,17 +11,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import lombok.Data;
 
 /**
  *
  * @author Pradeepkm
  */
+@Data
 public class Estimation {
 	
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)        
     private Long id;
     
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)      
+    @OneToMany(mappedBy = "estimation", cascade = CascadeType.ALL)      
     private List<DimensionData> eventData;
 }

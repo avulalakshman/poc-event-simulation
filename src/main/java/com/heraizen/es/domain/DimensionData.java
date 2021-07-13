@@ -17,19 +17,16 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DimensionData implements Serializable {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	private static final long serialVersionUID = 1L;
 
-	
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private static final long serialVersionUID = 1L;
+
     private String name;
-    private double value;
-    
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "event_id",referencedColumnName = "id")
-    private Estimation estimation;
-    
+    private String value;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
+    private Estimation estimation;
 }

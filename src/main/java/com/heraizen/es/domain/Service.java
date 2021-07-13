@@ -30,7 +30,7 @@ public class Service implements Serializable {
 	@NaturalId
 	private String svcName;
 	private String description;
-	private String strFormula;
+	private String svcFormula;
 
 	@OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
 	private List<ServiceDimension> serviceDimensions = new ArrayList<>();

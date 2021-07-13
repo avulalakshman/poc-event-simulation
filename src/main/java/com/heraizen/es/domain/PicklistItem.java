@@ -18,15 +18,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-public class Picklist implements Serializable {
-	private static final long serialVersionUID = 1L;
-	@Id
+public class PicklistItem implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private double value;
-     
+    private String value;
+
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "svc_dim_name", referencedColumnName = "svcDimName")    
+    @JoinColumn(name = "svc_dim_name", referencedColumnName = "svcDimName")
     private ServiceDimension serviceDimension;
 }

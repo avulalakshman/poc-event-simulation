@@ -40,11 +40,11 @@ public class ServiceDimension implements Serializable {
     private DimensionType dimensionType;
   
     @OneToMany(mappedBy = "serviceDimension",cascade = CascadeType.ALL)
-    private List<Picklist> picklist=new ArrayList<>();
+    private List<PicklistItem> picklist=new ArrayList<>();
+    
+    private String value;  //Value if the dimensionType is DERIVED
     
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "svc_name",referencedColumnName = "svcName")
     private Service service;
-        
-   
 }
