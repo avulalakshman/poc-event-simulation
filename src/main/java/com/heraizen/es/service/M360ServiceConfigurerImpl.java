@@ -39,7 +39,7 @@ public class M360ServiceConfigurerImpl implements M360ServiceConfigurer {
                 Variable argVar = ((Variable) arg);
                 String priceFor = argVar.getToken();
                 Object argVal = evaluator.get(argVar);
-                return priceProvider.getPriceFor(priceFor, (double) argVal);
+                return priceProvider.getPriceFor(priceFor,Double.valueOf(argVal.toString()));
             }
             return null;
         });

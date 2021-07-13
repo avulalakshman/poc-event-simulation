@@ -18,53 +18,64 @@ import com.heraizen.es.domain.ServiceDimension;
 import com.heraizen.es.repo.RateTableRepo;
 import com.heraizen.es.repo.ServiceDimensionRepo;
 import com.heraizen.es.repo.ServiceRepo;
+import com.heraizen.es.service.M360ServiceConfigurerImpl;
 
 @SpringBootApplication
 public class PocEventSimulationApplication implements CommandLineRunner {
 
-    @Autowired
-    private ServiceUtil serviceUtil;
+	@Autowired
+	private ServiceUtil serviceUtil;
 
-    @Autowired
-    private ServiceRepo serviceRepo;
+	@Autowired
+	private ServiceRepo serviceRepo;
 
-    @Autowired
-    private ServiceDimensionRepo serviceDimensionRepo;
+	@Autowired
+	private ServiceDimensionRepo serviceDimensionRepo;
 
-    @Autowired
-    private RateTableRepo rateTableRepo;
+	@Autowired
+	private RateTableRepo rateTableRepo;
 
-    @Autowired
-    private ServiceEvent serviceEvent;
+	@Autowired
+	private ServiceEvent serviceEvent;
 
-    public static void main(String[] args) {
-        SpringApplication.run(PocEventSimulationApplication.class, args);
-    }
+	@Autowired
+	private M360ServiceConfigurerImpl serviceConfigImpl;
 
-    @Override
-    @Transactional
-    public void run(String... args) throws Exception {
-        Service service = serviceUtil.getService();
-        service.getServiceDimensions().forEach(d -> d.setService(service));
-        service.getServiceDimensions().forEach(d -> {
-            d.getPicklist().forEach(p -> {
-                p.setServiceDimension(d);
+	public static void main(String[] args) {
+		SpringApplication.run(PocEventSimulationApplication.class, args);
+	}
 
-            });
-        });
-        serviceRepo.save(service);
+	@Override
+	@Transactional
+	public void run(String... args) throws Exception {
+		initData();
 
-        List<RateTable> rateTables = serviceUtil.getRateTables();
+		List<DimensionData> list = serviceEvent.getEventData();
+		double price = serviceConfigImpl.calculatePrice("HTTP APIs", list);
+		System.out.println("Estimated price :" + price);
+	}
 
-        rateTables.forEach(r -> {
-            ServiceDimension svcDimnsion = serviceDimensionRepo.findBySvcDimName(r.getSvcDimName());
-            r.setServiceDimension(svcDimnsion);
-        });
+	
+	private void initData() {
+		Service service = serviceUtil.getService();
+		service.getServiceDimensions().forEach(d -> d.setService(service));
+		service.getServiceDimensions().forEach(d -> {
+			d.getPicklist().forEach(p -> {
+				p.setServiceDimension(d);
 
-        rateTableRepo.saveAll(rateTables);
+			});
+		});
+		serviceRepo.save(service);
 
-        List<DimensionData> list = serviceEvent.getEventData();
-        
-    }
+		List<RateTable> rateTables = serviceUtil.getRateTables();
+
+		rateTables.forEach(r -> {
+			ServiceDimension svcDimnsion = serviceDimensionRepo.findBySvcDimName(r.getSvcDimName());
+			r.setServiceDimension(svcDimnsion);
+		});
+
+		rateTableRepo.saveAll(rateTables);
+
+	}
 
 }
