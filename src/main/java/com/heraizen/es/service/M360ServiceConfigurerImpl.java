@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.scijava.parsington.Literals;
 import org.scijava.parsington.Tokens;
 import org.scijava.parsington.Variable;
 import org.scijava.parsington.eval.Evaluator;
@@ -39,7 +40,8 @@ public class M360ServiceConfigurerImpl implements M360ServiceConfigurer {
                 Variable argVar = ((Variable) arg);
                 String priceFor = argVar.getToken();
                 Object argVal = evaluator.get(argVar);
-                return priceProvider.getPriceFor(priceFor,Double.valueOf(argVal.toString()));
+                return priceProvider.getPriceFor(priceFor,
+                        Double.valueOf(argVal.toString()));
             }
             return null;
         });
@@ -62,7 +64,7 @@ public class M360ServiceConfigurerImpl implements M360ServiceConfigurer {
 
                 case INPUT:
                     evaluator.evaluate(varName + "=" + evDataMap.get(varName));
-                    //i.e. assign varName as evaluated value
+                    log.info("dimension {} is assigned with {}", varName, evDataMap.get(varName));
                     break;
                 case PICKLIST:
                     String chosenVal = evDataMap.get(varName);
@@ -71,9 +73,11 @@ public class M360ServiceConfigurerImpl implements M360ServiceConfigurer {
                             .findAny().get()
                             .getValue();
                     evaluator.evaluate(varName + "=" + actualVal);   
+                    log.info("dimension {} is assigned with {} [{}]", varName, actualVal, chosenVal);
                     break;
                 case DERIVED:
                     evaluator.evaluate(varName + "=" + sd.getValue());
+                    log.info("dimension {} is assigned with {}", varName, sd.getValue());
                     break;
                 default:
                     throw new RuntimeException("Unknown Dimension Type " + sd.getDimensionType());
@@ -97,11 +101,11 @@ public class M360ServiceConfigurerImpl implements M360ServiceConfigurer {
         evaluateDimensions(svc, evDataMap, evaluator);
         
         //Now finally Calculate the price
-        Double price = (Double) evaluator.evaluate(svc.getSvcFormula());
+        Number price = (Number) evaluator.evaluate(svc.getSvcFormula());
         
-        log.info("Evaluated Price for svc {}" + price);
+        log.info("Evaluated Price for svc {}", price);
         
-        return price;
+        return price.doubleValue();
     }
 
 }

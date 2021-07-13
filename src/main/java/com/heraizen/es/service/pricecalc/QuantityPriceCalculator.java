@@ -7,17 +7,18 @@ package com.heraizen.es.service.pricecalc;
 
 import com.heraizen.es.domain.RateTable;
 import java.util.List;
-import org.scijava.parsington.Literals;
-import org.springframework.util.NumberUtils;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
  * @author Pradeepkm
  */
+@Slf4j
 public class QuantityPriceCalculator implements PriceCalculator{
 
     @Override
     public double calculatePrice(List<RateTable> rates, double dimensionVal) {
+        log.info("Doing a Quantity based pricing ...");
         RateTable rate = rates.get(0);
         return rate.getUnitPrice() * dimensionVal;
     }

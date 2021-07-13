@@ -31,15 +31,16 @@ public class DimensionPriceProvider {
 
     public double getPriceFor(String dimensionName, double dimensionVal) {
 
-        //get the rateTableItems for this dimentsion, it will be a list (for ex: Tiers)...findByDimensionName method on the RateTableRepository
+        log.info("Getting rate list for {} from Rate Table with dimension value as {}", dimensionName, dimensionVal);
         List<RateTable> rateList = rateTableRepo.findByServiceDimensionSvcDimName(dimensionName);
-        
+        log.info("Rate Table has {} entries for {}", rateList.size(), dimensionName);
         if (rateList.isEmpty()) {
             String errMsg = String.format("Rate Table entry NOT found for {} ", dimensionName);
             log.error(errMsg);
             throw new RuntimeException(errMsg);
         }
         PriceMethod pricingMethod = rateList.get(0).getPriceMethod();
+        log.info("Pricing method for {} is {}", dimensionName, pricingMethod);
         PriceCalculator priceCalc = priceCalcFactory.getPriceCalculatorFor(pricingMethod);
         return priceCalc.calculatePrice(rateList, dimensionVal);
     }

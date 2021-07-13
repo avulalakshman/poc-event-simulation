@@ -36,6 +36,10 @@ public class ServiceDimension implements Serializable {
     @NaturalId
     private String svcDimName;
     
+    private String descr;
+    
+    private int ordNo;
+    
     @Enumerated(EnumType.STRING)
     private DimensionType dimensionType;
   
