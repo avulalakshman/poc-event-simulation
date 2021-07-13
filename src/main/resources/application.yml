@@ -8,7 +8,7 @@ servicedata:
     -  
      svcDimName: total_requests
      dimensionType: DERIVED
-     value: requests * request_unit * period * ((sizebytes-1)/512)+1);
+     value: requests * request_unit * period * ((sizebytes-1)/512+1);
     -
       svcDimName: request_unit
       dimensionType: PICKLIST
