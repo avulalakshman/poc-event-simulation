@@ -5,6 +5,10 @@ servicedata:
   description: Select the units, number, and frequency for HTTP
   svcFormula: 
   serviceDimensions:
+    -  
+     svcDimName: total_requests
+     dimensionType: DERIVED
+     value: price(requests, request_unit * requests * period)  + price(sizeunit,sizebytes)
     -
       svcDimName: request_unit
       dimensionType: PICKLIST
@@ -60,18 +64,23 @@ servicedata:
     -  
      svcDimName: sizeunit
      dimensionType: INPUT
+   
      
  rateTables:
         -
+         
          priceMethod: TIERED
          maxValue: 1
          minValue: 300000000
          unitPrice: 0.000001
+         svcDimName: total_requests
         -
          priceMethod: TIERED
          maxValue: 300000000
          minValue: 1000000000
          unitPrice: 0.0000009
+         svcDimName: total_requests
+         
 estimation:
   eventData:
     - 

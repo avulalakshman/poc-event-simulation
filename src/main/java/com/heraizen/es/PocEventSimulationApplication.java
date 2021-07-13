@@ -9,7 +9,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.heraizen.es.config.ServiceEvent;
 import com.heraizen.es.config.ServiceUtil;
+import com.heraizen.es.domain.DimensionData;
 import com.heraizen.es.domain.RateTable;
 import com.heraizen.es.domain.Service;
 import com.heraizen.es.domain.ServiceDimension;
@@ -33,6 +35,8 @@ public class PocEventSimulationApplication implements CommandLineRunner {
 	@Autowired
 	private RateTableRepo rateTableRepo;
 
+	@Autowired
+	private ServiceEvent serviceEvent;
 
 	
 	public static void main(String[] args) {
@@ -52,15 +56,19 @@ public class PocEventSimulationApplication implements CommandLineRunner {
 		});
     	serviceRepo.save(service);
     	
-    	ServiceDimension svcDimnsion = serviceDimensionRepo.findBySvcDimName("request_unit");
+    	
     	List<RateTable> rateTables = serviceUtil.getRateTables();
-    	if(svcDimnsion != null) {
+    	
     		rateTables.forEach(r->{
+    			ServiceDimension svcDimnsion = serviceDimensionRepo.findBySvcDimName(r.getSvcDimName());
     			r.setServiceDimension(svcDimnsion);
     		});
-    	}
+    	
     	rateTableRepo.saveAll(rateTables);
-				
+    	
+    	List<DimensionData> list = serviceEvent.getEventData();
 	}
+	
+	
 
 }

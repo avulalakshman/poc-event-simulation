@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import lombok.Data;
 
@@ -33,4 +34,7 @@ public class RateTable implements Serializable {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "svc_dim_name", referencedColumnName = "svcDimName")
 	private ServiceDimension serviceDimension;
+	
+	@Transient
+    private String svcDimName ;
 }
