@@ -9,16 +9,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.heraizen.es.config.ServiceEvent;
 import com.heraizen.es.config.ServiceUtil;
-import com.heraizen.es.domain.DimensionData;
 import com.heraizen.es.domain.RateTable;
 import com.heraizen.es.domain.Service;
 import com.heraizen.es.domain.ServiceDimension;
 import com.heraizen.es.repo.RateTableRepo;
 import com.heraizen.es.repo.ServiceDimensionRepo;
 import com.heraizen.es.repo.ServiceRepo;
-import com.heraizen.es.service.M360ServiceConfigurer;
 
 @SpringBootApplication
 public class PocEventSimulationApplication implements CommandLineRunner {
@@ -29,8 +26,6 @@ public class PocEventSimulationApplication implements CommandLineRunner {
 	@Autowired
 	private ServiceRepo serviceRepo;
 	
-	@Autowired
-	private ServiceEvent serviceEvent;
 	
 	@Autowired
 	private ServiceDimensionRepo serviceDimensionRepo;
@@ -39,9 +34,6 @@ public class PocEventSimulationApplication implements CommandLineRunner {
 	private RateTableRepo rateTableRepo;
 
 
-	@Autowired
-    private M360ServiceConfigurer serviceConfigurer;
-	
 	
 	public static void main(String[] args) {
 		SpringApplication.run(PocEventSimulationApplication.class, args);
@@ -68,19 +60,7 @@ public class PocEventSimulationApplication implements CommandLineRunner {
     		});
     	}
     	rateTableRepo.saveAll(rateTables);
-		List<DimensionData> list = serviceEvent.getEventData();
-		
-		String serviceName = "HTTP APIs";
-		
-		Service savedService=serviceRepo.findBySvcName(serviceName);
-		if(savedService == null) {
-			throw new IllegalArgumentException("Service with name :"+serviceName+" is not found");
-		}
-		
-		System.out.println(savedService.getSvcName());
-		double estimatedPrice = serviceConfigurer.calculatePrice(serviceName, list);
-		
-		System.out.println("Estimated price :"+estimatedPrice +" for the service "+serviceName);
+				
 	}
 
 }

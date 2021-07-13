@@ -24,16 +24,16 @@ import org.springframework.stereotype.Component;
 public class DimensionPriceProvider {
 
     @Autowired
-    RateTableRepo rateTableRepo;
+    private RateTableRepo rateTableRepo;
 
     @Autowired
-    PriceCalculatorStrategyFactory priceCalcFactory;
+    private PriceCalculatorStrategyFactory priceCalcFactory;
 
     public double getPriceFor(String dimensionName, double dimentionVal) {
 
         //get the rateTableItems for this dimentsion, it will be a list (for ex: Tiers)...findByDimensionName method on the RateTableRepository
-        List<RateTable> rateList = rateTableRepo.findAll()
-                ;
+        List<RateTable> rateList = rateTableRepo.findByServiceDimensionSvcDimName(dimensionName);
+        
         if (rateList.isEmpty()) {
             String errMsg = String.format("Rate Table entry NOT found for {} ", dimensionName);
             log.error(errMsg);
