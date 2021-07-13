@@ -97,4 +97,4 @@ estimation:
      value: 1000
     -
      name: sizebytes
-     value: 756
+     value: kb
