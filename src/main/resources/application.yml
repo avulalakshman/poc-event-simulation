@@ -85,10 +85,10 @@ estimation:
   eventData:
     - 
      name: request_unit
-     value: 1
+     value: thousands
     -
      name: period
-     value: 1
+     value: per month
     -
      name: requests
      value: 1
