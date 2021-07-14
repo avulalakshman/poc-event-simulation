@@ -10,6 +10,4 @@ public interface RateTableRepo extends JpaRepository<RateTable,Long> {
 
 	List<RateTable> findByServiceDimensionSvcDimName(String dimensionName);
 	List<RateTable> findByServiceDimensionSvcDimNameAndServiceDimensionServiceSvcName(String dimensionName,String svcName);
-
-
 }

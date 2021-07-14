@@ -7,6 +7,7 @@ package com.heraizen.es.service;
 
 import com.heraizen.es.domain.PriceMethod;
 import com.heraizen.es.domain.RateTable;
+import com.heraizen.es.domain.Service;
 import com.heraizen.es.repo.RateTableRepo;
 import com.heraizen.es.service.pricecalc.PriceCalculator;
 import com.heraizen.es.service.pricecalc.PriceCalculatorStrategyFactory;
@@ -29,8 +30,7 @@ public class DimensionPriceProvider {
     @Autowired
     private PriceCalculatorStrategyFactory priceCalcFactory;
 
-    public double getPriceFor(String dimensionName, double dimensionVal) {
-
+    public double getPriceFor(Service svc, String dimensionName, double dimensionVal) {
         log.info("Getting rate list for {} from Rate Table with dimension value as {}", dimensionName, dimensionVal);
         List<RateTable> rateList = rateTableRepo.findByServiceDimensionSvcDimName(dimensionName);
         log.info("Rate Table has {} entries for {}", rateList.size(), dimensionName);

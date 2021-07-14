@@ -18,9 +18,11 @@ public class QuantityPriceCalculator implements PriceCalculator{
 
     @Override
     public double calculatePrice(List<RateTable> rates, double dimensionVal) {
-        log.info("Doing a Quantity based pricing ...");
         RateTable rate = rates.get(0);
-        return rate.getUnitPrice() * dimensionVal;
+        log.info("Doing a Quantity based pricing for {} of {} with val as {}", rate.getSvcDimName(), rate.getSvcName(), dimensionVal);
+        double price = rate.getUnitPrice() * dimensionVal;
+        log.info("Quantity based price for {} is {}", rate.getSvcDimName(), price);
+        return price;
     }
     
 }

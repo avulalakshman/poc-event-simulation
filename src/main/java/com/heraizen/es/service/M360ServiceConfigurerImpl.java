@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import org.scijava.parsington.Literals;
 import org.scijava.parsington.Tokens;
 import org.scijava.parsington.Variable;
 import org.scijava.parsington.eval.Evaluator;
@@ -33,14 +32,15 @@ public class M360ServiceConfigurerImpl implements M360ServiceConfigurer {
         return serviceRepo.findBySvcName(svcName);
     }
 
-    private Monetize360Evaluator getEvaluator() {
+    private Monetize360Evaluator getEvaluator(final Service service) {
         final Monetize360Evaluator evaluator = new Monetize360Evaluator();
+        evaluator.set(new Variable("Service_Name"), service.getSvcName());
         evaluator.addFunction("price", (arg) -> {
             if (Tokens.isVariable(arg)) {
                 Variable argVar = ((Variable) arg);
                 String priceFor = argVar.getToken();
                 Object argVal = evaluator.get(argVar);
-                return priceProvider.getPriceFor(priceFor,
+                return priceProvider.getPriceFor(service, priceFor,
                         Double.valueOf(argVal.toString()));
             }
             return null;
@@ -91,11 +91,11 @@ public class M360ServiceConfigurerImpl implements M360ServiceConfigurer {
         Map<String, String> evDataMap = eventData.stream()
                 .collect(Collectors.toMap(d -> d.getName(), d -> d.getValue()));
         
-        //Create an evaluator
-        Monetize360Evaluator evaluator = getEvaluator();
-        
         //Now, Fetch the Service
         Service svc = getService(svcName);
+        
+        //Create an evaluator
+        Monetize360Evaluator evaluator = getEvaluator(svc);
         
         //Evaluate all Dimensions, with the user provided data
         evaluateDimensions(svc, evDataMap, evaluator);

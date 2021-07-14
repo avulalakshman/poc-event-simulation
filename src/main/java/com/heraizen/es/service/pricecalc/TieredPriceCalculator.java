@@ -19,8 +19,10 @@ public class TieredPriceCalculator implements PriceCalculator{
 
     @Override
     public double calculatePrice(List<RateTable> rates, double dimensionVal) {
-        log.info("Doing a Tiered based pricing with {} Tiers ", rates.size());
         rates.sort(Comparator.comparing(RateTable::getMinValue));
+        RateTable temp = rates.get(0);
+        log.info("TIERED based pricing with {} tiers for {} of {} svc", 
+                rates.size(), temp.getSvcDimName(), temp.getSvcName());
         double d = dimensionVal;
         double retPrice = 0;
         int i = 0;
@@ -40,6 +42,7 @@ public class TieredPriceCalculator implements PriceCalculator{
             }
             retPrice += tierPrice;
         } while (d > 0 && rates.size() > i++ );
+        log.info("Calculated Total price for {} is {}", temp.getSvcDimName(), retPrice);
         return retPrice;
     }
     
