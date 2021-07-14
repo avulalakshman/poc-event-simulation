@@ -35,6 +35,9 @@ public class RateTable implements Serializable {
 	@JoinColumn(name = "svc_dim_name", referencedColumnName = "svcDimName")
 	private ServiceDimension serviceDimension;
 	
+	
+	private String svcName;
+	
 	@Transient
     private String svcDimName ;
 }

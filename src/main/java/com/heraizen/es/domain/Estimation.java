@@ -24,6 +24,7 @@ public class Estimation {
     @GeneratedValue(strategy = GenerationType.AUTO)        
     private Long id;
     
+    private String svcName;
     @OneToMany(mappedBy = "estimation", cascade = CascadeType.ALL)      
     private List<DimensionData> eventData;
 }

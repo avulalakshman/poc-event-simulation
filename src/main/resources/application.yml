@@ -1,10 +1,10 @@
 servicedata:
-  service:
+ services:
+   -
     id: 1001
     svcName: HTTP APIs
     description: 'Select the units, number, and frequency for HTTP'
     svcFormula: price(Total_Requests)
-    
     serviceDimensions:
       - svcDimName: Total_Requests
         descr: Final Total Requests which is priced. This is an arithmetic expression
@@ -60,19 +60,97 @@ servicedata:
         descr: What is the size of the Request, every 512kb is going to be considered as 1 Request
         ordNo: 4
         dimensionType: INPUT
-  rateTables:
+   -
+    id: 1002
+    svcName: HTTP APIs - Two
+    description: 'Select the units, number, and frequency for HTTP'
+    svcFormula: price(Total_Requests_2)
+    serviceDimensions:
+      - svcDimName: Total_Requests_2
+        descr: Final Total Requests which is priced. This is an arithmetic expression
+        ordNo: 6
+        dimensionType: DERIVED
+        value: >-
+          Requests_2 * Request_Unit_2 * Per_Period_2 * ((((Request_Size_2 *
+          Request_Size_Unit_2)-1)/512)+1);
+      - svcDimName: Request_Unit_2
+        descr: What is the Units for the Requests you mentioned
+        ordNo: 2
+        dimensionType: PICKLIST
+        picklist:
+          - name: exact number
+            value: 1
+          - name: thousands
+            value: 1000
+          - name: millions
+            value: 1000000
+          - name: billions
+            value: 10000000
+      - svcDimName: Per_Period_2
+        descr: What is the period in which the Requests occur
+        ordNo: 3
+        dimensionType: PICKLIST
+        picklist:
+          - name: per second
+            value: 2628000000
+          - name: per minute
+            value: 43800000
+          - name: per hour
+            value: 730000
+          - name: per day
+            value: 30416
+          - name: per month
+            value: 1
+      - svcDimName: Requests_2
+        descr: What is the no of Requests 
+        ordNo: 1
+        dimensionType: INPUT
+      - svcDimName: Request_Size_Unit_2
+        descr: What is the units for the Request Size you mentioned
+        ordNo: 5
+        dimensionType: PICKLIST
+        picklist:
+          - name: bytes
+            value: 0.000976563
+          - name: kb
+            value: 1
+          - name: mb
+            value: 1024
+      - svcDimName: Request_Size_2
+        descr: What is the size of the Request, every 512kb is going to be considered as 1 Request
+        ordNo: 4
+        dimensionType: INPUT
+       
+   
+ rateTables:
     - svcDimName: Total_Requests
       priceMethod: TIERED
       minValue: 1
       maxValue: 3000000
       unitPrice: 0.000001
+      svcName: HTTP APIs
     - svcDimName: Total_Requests
       priceMethod: TIERED
       minValue: 3000000
       maxValue: 1000000000
       unitPrice: 9.e-7
-
-estimation:
+      svcName: HTTP APIs    
+    - svcDimName: Total_Requests_2
+      priceMethod: TIERED
+      minValue: 1
+      maxValue: 3000000
+      unitPrice: 0.000001
+      svcName: HTTP APIs - Two
+    - svcDimName: Total_Requests_2
+      priceMethod: TIERED
+      minValue: 3000000
+      maxValue: 1000000000
+      unitPrice: 9.e-7
+      svcName: HTTP APIs - Two 
+      
+estimationdata:
+ estimation:
+  svcName: HTTP APIs
   eventData:
     - name: Requests
       value: 2
@@ -84,5 +162,4 @@ estimation:
       value: 1000
     - name: Request_Size_Unit
       value: kb
-      
       

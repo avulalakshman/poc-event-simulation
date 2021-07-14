@@ -14,6 +14,6 @@ import lombok.Data;
 @Configuration
 @ConfigurationProperties(prefix = "servicedata")
 public class ServiceUtil {
-	private Service service;
+	private List<Service> services;
 	private List<RateTable> rateTables;
 }
