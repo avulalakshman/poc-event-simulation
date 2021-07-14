@@ -20,6 +20,7 @@ import com.heraizen.es.repo.RateTableRepo;
 import com.heraizen.es.repo.ServiceDimensionRepo;
 import com.heraizen.es.repo.ServiceRepo;
 import com.heraizen.es.service.M360ServiceConfigurerImpl;
+import java.io.IOException;
 import java.util.ArrayList;
 import static java.util.Comparator.comparing;
 import java.util.Scanner;
@@ -54,9 +55,9 @@ public class PocEventSimulationApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         initData();
 
-        List<DimensionData> list = serviceEvent.getEventData();
-        double price = serviceConfigImpl.calculatePrice("HTTP APIs", list);
-        System.out.println("Estimated price :" + price);
+//        List<DimensionData> list = serviceEvent.getEventData();
+//        double price = serviceConfigImpl.calculatePrice("HTTP APIs", list);
+//        System.out.println("Estimated price :" + price);
 
         List<Service> services = serviceRepo.findAll();
         getDetailsOf(services);
@@ -84,7 +85,7 @@ public class PocEventSimulationApplication implements CommandLineRunner {
 
     }
 
-    void getDetailsOf(List<Service> services) {
+    void getDetailsOf(List<Service> services) throws IOException {
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
         boolean doContinue = true;
@@ -101,11 +102,14 @@ public class PocEventSimulationApplication implements CommandLineRunner {
                 List<DimensionData> dimensionData = getDimensionsInput(scanner, services.get(choice));
                 System.out.println("User Estimation Input:\n " + dimensionData);
                 try {
-                    double price = serviceConfigImpl.calculatePrice(services.get(choice).getSvcName(), dimensionData);
+                    double price = serviceConfigImpl.calculatePrice(services.get(choice)
+                            .getSvcName(), dimensionData);
                     System.out.println(String.format("Estimated price: %2f USD", price ));
                 } catch(Throwable t) {
                     System.out.println("Error : " + t.getMessage());
                 }
+                System.out.print("Press any key to continue...");
+                System.in.read();
             } else {
                 doContinue = false;
             }
